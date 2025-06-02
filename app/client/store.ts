@@ -9,7 +9,6 @@ export function useMarkdownUploader() {
     setTemp(md);
   };
   useEffect(() => {
-
     let prev = localStorage.getItem("temp");
     if (prev) {
       if (prev == temp) return;

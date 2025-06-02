@@ -56,26 +56,25 @@ const simpleSandpackConfig: SandpackConfig = {
     },
   ],
 };
-export default function Editor({
-  md,
-  oldMd,
-  id,
-}: {
-  md?: string;
-  oldMd?: string;
-  id?: string;
-}) {
+export default function PostEditor({ md, id }: { md?: string; id?: string }) {
   let mdRef = useRef<MDXEditorMethods>(null);
   let { temp } = useMarkdownUploader();
   return (
     <div className="bg-base-300 min-h-[calc(100dvh-80px)]  ">
       <div className="">
-        <ClientOnly>
+        <ClientOnly
+          fallback={
+            <div className="h-screen grid-center bg-base-300">
+              <h2 className="text-primary font-bold">Loading Editor</h2>
+            </div>
+          }
+        >
           {() => {
+            let edits = localStorage.getItem(`edits_${id}`);
             return (
               <MDXEditor
                 contentEditableClassName={`min-h-[calc(100dvh-120px)] bg-base-100 prose max-w-full !important`}
-                markdown={oldMd ?? md ?? "hello world"}
+                markdown={edits ?? md ?? "hello world"}
                 suppressHtmlProcessing
                 ref={mdRef}
                 plugins={[
@@ -92,7 +91,7 @@ export default function Editor({
                           <ListsToggle />
                           <InsertCodeBlock />
                           <UndoRedo />
-                          <Uploader editorRef={mdRef} id={id} oldMd={oldMd} />
+                          <Uploader editorRef={mdRef} id={id} oldMd={md} />
                           <ClearMd />
                         </DiffSourceToggleWrapper>
                       </>
@@ -124,7 +123,7 @@ export default function Editor({
                   listsPlugin(),
                   quotePlugin(),
                   diffSourcePlugin({
-                    diffMarkdown: oldMd ?? "Hello World",
+                    diffMarkdown: md ?? "Hello World",
                   }),
                   frontmatterPlugin(),
                   thematicBreakPlugin(),
@@ -154,11 +153,11 @@ let Uploader = (props: UploaderProps) => {
         let md = props.editorRef?.current?.getMarkdown();
         if (!md)
           return toast.error("Please write some content before uploading.");
+        localStorage.setItem(`edits_` + props.id, md);
         if (md?.length < 10)
           return toast.error("Please write some content before uploading.");
         updateTemp(md ?? "");
-        if (props.oldMd) return nav("/post/update/" + props.id);
-        nav("/post/create/upload");
+        return nav("/post/update/" + props.id);
       }}
     >
       Upload
