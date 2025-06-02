@@ -10,7 +10,7 @@ let links = [
   },
   {
     name: "Blog",
-    path: "/",
+    path: "/blog",
   },
   {
     name: "Services",

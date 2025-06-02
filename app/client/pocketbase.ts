@@ -1,10 +1,7 @@
-import PocketBase, { ClientResponseError } from "pocketbase";
+import PocketBase, { ClientResponseError, type RecordModel } from "pocketbase";
 import { useEffect } from "react";
 import { useActionData } from "react-router";
 import { toast } from "sonner";
-// export let db = () => {
-//   return new PocketBase("http://104.198.161.24:8090");
-// };
 export let db = () => {
   return new PocketBase("http://127.0.0.1:8090");
 };
@@ -28,7 +25,12 @@ export let errorHandler = (err: any) => {
     { error: "internal server error" },
     {
       status: 500,
-    },
+    }
   );
 };
 export let get_cookie = (req: Request) => req.headers.get("cookie");
+
+export function getUrl(record: RecordModel, name: string) {
+  let client = db();
+  return client.files.getURL(record, name);
+}

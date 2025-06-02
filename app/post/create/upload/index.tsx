@@ -13,10 +13,11 @@ export default function index() {
     e.preventDefault();
     let form = e.currentTarget as HTMLFormElement;
     let formData = new FormData(form);
-    let title = formData.get("title");
+    let title = formData.get("title") as string;
+
     formData.append("post", temp);
     if (!title) return toast.error("Title is required");
-    let cover = formData.get("cover");
+    let cover = formData.get("cover") as File;
     if (!cover) return toast.error("Cover image is required");
     let response = await fetch("/api/post", {
       method: "POST",
@@ -24,8 +25,7 @@ export default function index() {
       body: formData,
     });
     if (!response.ok) {
-      toast.error("Upload failed");
-      return;
+      return toast.error("Upload failed");
     }
     let data = await response.json();
     toast.success("Upload successful");
@@ -76,6 +76,7 @@ export default function index() {
               <input
                 name="title"
                 type="text"
+                id="title"
                 className="input w-full"
                 placeholder="Title here"
               />
