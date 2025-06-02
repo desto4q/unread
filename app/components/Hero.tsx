@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { db } from "~/client/pocketbase";
 import { useEffect } from "react";
-import type { RecordModel } from "pocketbase";
+import type { ListResult, RecordModel } from "pocketbase";
 import LoadingQuery from "./LoadingQuery";
 
 let arr = Array.from({ length: 10 }, (_, i) => i + 1);
@@ -37,10 +37,14 @@ export default function Hero() {
   );
 }
 
-let Carousel = ({ data }: { data: RecordModel }) => {
+let Carousel = ({ data }: { data: ListResult<RecordModel> }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
   });
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <div className="flex container mx-auto rounded-lg overflow-hidden relative isolate ">
       <div className="absolute flex p-2 gap-2 right-0 m-2 z-10">
@@ -63,7 +67,7 @@ let Carousel = ({ data }: { data: RecordModel }) => {
       </div>
       <div className="embla bg-red-200 w-full" ref={emblaRef}>
         <div className="embla__container">
-          {arr.map((callbackfn, i) => (
+          {data.items.map((callbackfn, i) => (
             <div className="embla__slide h-[522px]" key={"slide_" + i}>
               <HeroCard />
             </div>
