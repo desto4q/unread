@@ -7,7 +7,6 @@ interface QueryState extends PropsWithChildren {
   refetch: () => any;
   className?: string;
 }
-
 export default function LoadingQuery(props: QueryState) {
   if (props.isFetching) {
     return (

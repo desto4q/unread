@@ -3,8 +3,7 @@ import fs from "fs";
 import Markdown from "react-markdown";
 import { useLoaderData } from "react-router";
 import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import dark from "react-syntax-highlighter/dist/esm/styles/prism/a11y-dark";
+
 
 export async function loader() {
   const filePath = path.join(process.cwd(), "public", "md.txt");

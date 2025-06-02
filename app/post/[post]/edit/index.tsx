@@ -1,17 +1,16 @@
-import { useLoaderData, useParams } from "react-router";
-import Editor from "~/components/Editor";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
+import { db } from "~/client/pocketbase";
 import PostEditor from "~/components/PostEditor";
-export async function loader() {
-  return "";
+export async function loader({ params }: LoaderFunctionArgs) {
+  let { post } = params;
+  if (!post) return null;
+  let client = db();
+  let post_result = await client.collection("posts").getOne(post);
+  return post_result;
 }
 export default function index() {
   let resp = useLoaderData<typeof loader>();
-  let { post } = useParams();
-
   return (
-    <div className="">
-      {/* <Editor oldMd="sos" id={post} /> */}
-      <PostEditor md="sossssss" id={post} />
-    </div>
+    <div className="">{resp && <PostEditor md={resp.post} id={resp.id} />}</div>
   );
 }
