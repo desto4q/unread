@@ -9,7 +9,7 @@ let links = [
     path: "/",
   },
   {
-    name: "Product",
+    name: "Blog",
     path: "/",
   },
   {
@@ -31,9 +31,9 @@ export default function NavBar() {
   return (
     <div className="step px-4 md:px-0">
       <nav className="h-18 container mx-auto flex items-center gap-2">
-        <h2 className=" font-bold text-xl">
+        <Link to={"/"} className=" font-bold text-xl btn inline_flex gap-0 btn-ghost btn-primary">
           UR<span className="hidden md:inline">ead</span>
-        </h2>
+        </Link>
         <div className="mr-auto md:flex hidden ">
           {links.map((link) => (
             <Link to={link.path} key={link.name} className="btn btn-ghost">
