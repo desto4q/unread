@@ -1,9 +1,10 @@
 import useEmblaCarousel from "embla-carousel-react";
 import HeroCard from "./HeroCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 let arr = Array.from({ length: 10 }, (_, i) => i + 1);
 export default function Hero() {
-  const [emblaRef] = useEmblaCarousel({
+  const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
   });
 
@@ -12,11 +13,29 @@ export default function Hero() {
       <div className="container mx-auto mt-8 mb-4 *:leading-loose">
         <h2 className="badge badge-soft badge-primary">New Posts</h2>
         <h1 className="text-3xl font-bold capitalize ">Browse Our Resources</h1>
-        <p className="label text-sm font-semibold">
+        <p className="fade text-md font-semibold ">
           We provide tips and resources from industry leaders. For real
         </p>
       </div>
-      <div className="flex container mx-auto rounded-lg overflow-hidden">
+      <div className="flex container mx-auto rounded-lg overflow-hidden relative isolate ">
+        <div className="absolute flex p-2 gap-2 right-0 m-2 z-10">
+          <button
+            className="btn btn-circle"
+            onClick={() => {
+              emblaApi?.scrollPrev();
+            }}
+          >
+            <ChevronLeft />
+          </button>
+          <button
+            className="btn btn-circle"
+            onClick={() => {
+              emblaApi?.scrollNext();
+            }}
+          >
+            <ChevronRight />
+          </button>
+        </div>
         <div className="embla bg-red-200 w-full" ref={emblaRef}>
           <div className="embla__container">
             {arr.map((callbackfn, i) => (

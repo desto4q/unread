@@ -56,26 +56,23 @@ const simpleSandpackConfig: SandpackConfig = {
     },
   ],
 };
-export default function Editor({
-  md,
-  oldMd,
-  id,
-}: {
-  md?: string;
-  oldMd?: string;
-  id?: string;
-}) {
+export default function Editor({ md }: { md?: string }) {
   let mdRef = useRef<MDXEditorMethods>(null);
-  let { temp } = useMarkdownUploader();
   return (
     <div className="bg-base-300 min-h-[calc(100dvh-80px)]  ">
       <div className="">
-        <ClientOnly>
+        <ClientOnly
+          fallback={
+            <div className="h-screen grid-center bg-base-300">
+              <h2 className="text-primary font-bold">Loading Editor</h2>
+            </div>
+          }
+        >
           {() => {
             return (
               <MDXEditor
                 contentEditableClassName={`min-h-[calc(100dvh-120px)] bg-base-100 prose max-w-full !important`}
-                markdown={oldMd ?? md ?? "hello world"}
+                markdown={"hello world"}
                 suppressHtmlProcessing
                 ref={mdRef}
                 plugins={[
@@ -92,7 +89,7 @@ export default function Editor({
                           <ListsToggle />
                           <InsertCodeBlock />
                           <UndoRedo />
-                          <Uploader editorRef={mdRef} id={id} oldMd={oldMd} />
+                          <Uploader editorRef={mdRef} />
                           <ClearMd />
                         </DiffSourceToggleWrapper>
                       </>
@@ -123,9 +120,7 @@ export default function Editor({
                   thematicBreakPlugin(),
                   listsPlugin(),
                   quotePlugin(),
-                  diffSourcePlugin({
-                    diffMarkdown: oldMd ?? "Hello World",
-                  }),
+                  diffSourcePlugin({}),
                   frontmatterPlugin(),
                   thematicBreakPlugin(),
                   markdownShortcutPlugin(),
@@ -156,8 +151,7 @@ let Uploader = (props: UploaderProps) => {
           return toast.error("Please write some content before uploading.");
         if (md?.length < 10)
           return toast.error("Please write some content before uploading.");
-        updateTemp(md ?? "");
-        if (props.oldMd) return nav("/post/update/" + props.id);
+        updateTemp(md ?? "hello_world");
         nav("/post/create/upload");
       }}
     >

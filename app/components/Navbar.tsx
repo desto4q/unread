@@ -31,10 +31,12 @@ export default function NavBar() {
   return (
     <div className="step px-4 md:px-0">
       <nav className="h-18 container mx-auto flex items-center gap-2">
-        <h2 className=" font-bold text-xl">URead</h2>
+        <h2 className=" font-bold text-xl">
+          UR<span className="hidden md:inline">ead</span>
+        </h2>
         <div className="mr-auto md:flex hidden ">
           {links.map((link) => (
-            <Link to={link.path} key={link.name} className="btn btn-ghost" >
+            <Link to={link.path} key={link.name} className="btn btn-ghost">
               {link.name}
             </Link>
           ))}
