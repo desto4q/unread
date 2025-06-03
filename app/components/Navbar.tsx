@@ -13,16 +13,12 @@ let links = [
     path: "/blog",
   },
   {
-    name: "Services",
-    path: "/",
+    name: "profile",
+    path: "/user/profile",
   },
   {
     name: "Faq's",
     path: "/",
-  },
-  {
-    name: "Create",
-    path: "/post/create",
   },
 ];
 export default function NavBar() {
@@ -31,7 +27,10 @@ export default function NavBar() {
   return (
     <div className="step px-4 md:px-0">
       <nav className="h-18 container mx-auto flex items-center gap-2">
-        <Link to={"/"} className=" font-bold text-xl btn inline_flex gap-0 btn-ghost btn-primary">
+        <Link
+          to={"/"}
+          className=" font-bold text-xl btn inline_flex gap-0 btn-ghost btn-primary"
+        >
           UR<span className="hidden md:inline">ead</span>
         </Link>
         <div className="mr-auto md:flex hidden ">
@@ -40,6 +39,11 @@ export default function NavBar() {
               {link.name}
             </Link>
           ))}
+          {user && (
+            <Link to={"/post/create"} className="btn btn-ghost">
+              create
+            </Link>
+          )}
         </div>
         <SearchBar />
         <div className="hidden md:block">
