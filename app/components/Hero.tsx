@@ -6,6 +6,7 @@ import { db } from "~/client/pocketbase";
 import { useEffect } from "react";
 import type { ListResult, RecordModel } from "pocketbase";
 import LoadingQuery from "./LoadingQuery";
+import type { BLOGMODEL, POSTMODEL } from "types/types";
 
 let arr = Array.from({ length: 10 }, (_, i) => i + 1);
 export default function Hero() {
@@ -13,13 +14,14 @@ export default function Hero() {
     queryKey: ["new"],
     queryFn: async () => {
       let client = db();
-      let resp = await client.collection("posts").getList(1, 10);
+      let resp = await client.collection("posts").getList(1, 10, {
+        sort: "view_id.views",
+        expand: "user_id",
+      });
       return resp;
     },
   });
-  useEffect(() => {
-    console.log(query.data);
-  }, []);
+
   if (query.isError) return <>error</>;
   return (
     <div className="px-4 md:px-0">
@@ -37,14 +39,11 @@ export default function Hero() {
   );
 }
 
-let Carousel = ({ data }: { data: ListResult<RecordModel> }) => {
+let Carousel = ({ data }: { data: ListResult<POSTMODEL> }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
   });
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
   return (
     <div className="flex container mx-auto rounded-lg overflow-hidden relative isolate ">
       <div className="absolute flex p-2 gap-2 right-0 m-2 z-10">
@@ -67,9 +66,9 @@ let Carousel = ({ data }: { data: ListResult<RecordModel> }) => {
       </div>
       <div className="embla bg-red-200 w-full" ref={emblaRef}>
         <div className="embla__container">
-          {data.items.map((callbackfn, i) => (
+          {data.items.map((item, i) => (
             <div className="embla__slide h-[522px]" key={"slide_" + i}>
-              <HeroCard />
+              <HeroCard {...item} />
             </div>
           ))}
         </div>

@@ -20,3 +20,11 @@ export function useMarkdownUploader() {
   }, [temp]);
   return { temp, updateTemp };
 }
+
+export let date_formatter = (date_string: string) => {
+  return new Date(date_string).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+};
