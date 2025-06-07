@@ -1,6 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
-
+import { useEffect, useLayoutEffect, useState } from "react";
 let md_atom = atom<string>("");
 
 export function useMarkdownUploader() {
@@ -28,3 +27,11 @@ export let date_formatter = (date_string: string) => {
     year: "numeric",
   });
 };
+export function useClientHeight() {
+  let [height, setHeight] = useState(0);
+  useLayoutEffect(() => {
+    setHeight(document.documentElement.scrollHeight - 80);
+  }, []);
+
+  return { height };
+}

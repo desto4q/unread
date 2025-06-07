@@ -1,14 +1,26 @@
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon, XIcon } from "lucide-react";
+import type { RecordModel } from "pocketbase";
 import { useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { db } from "~/client/pocketbase";
 import { useMarkdownUploader } from "~/client/store";
 
 export default function index() {
   let { temp } = useMarkdownUploader();
   let [image_url, setImage] = useState<string | undefined>(undefined);
   let coverRef = useRef<HTMLInputElement>(null);
+
+  // let tags_query = useQuery<RecordModel[]>({
+  //   queryKey: ["tags"],
+  //   queryFn: async () => {
+  //     let client = db();
+  //     let resp = await client.collection("tags").getFullList();
+  //     return resp;
+  //   },
+  // });
   let onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     let form = e.currentTarget as HTMLFormElement;
@@ -32,6 +44,8 @@ export default function index() {
     console.log(data);
   };
   let nav = useNavigate();
+
+  let dialogRef = useState();
   return (
     <div className=" container mx-auto">
       <div className="h-16 flex items-center step px-4 md:px-0">
@@ -98,6 +112,21 @@ export default function index() {
               id="cover_img"
               name="cover"
             />
+            <div className="form-control w-full mt-2">
+              <input
+                type="select"
+                name="tags_input"
+                id="tags_input"
+                list="tags"
+                className="input w-full"
+                placeholder="tags"
+              />
+              {/* <datalist className="bg-white" id="tags">
+                {!tags_query.isFetching &&
+                  tags_query.data &&
+                  tags_query.data.map((tag) => <option>{tag.tag}</option>)}
+              </datalist> */}
+            </div>
             <button className="btn btn-block mt-2 btn-primary">Upload</button>
           </form>
         </div>

@@ -1,21 +1,54 @@
 import path from "path";
-import fs from "fs";
+import { useEffect } from "react";
 import Markdown from "react-markdown";
 import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import remarkGfm from "remark-gfm";
 import { db, getUrl } from "~/client/pocketbase";
+import { useClientHeight } from "~/client/store";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const filePath = path.join(process.cwd(), "public", "md.txt");
   let client = db();
   let { post: id } = params;
-  let response = await client.collection("posts").getOne(id as string);
+  let response = await client
+    .collection("posts")
+    .getOne(id as string)
+    .catch((err) => {});
   return response;
   // let text = fs.readFileSync(filePath, "utf8");
   // return text;
 }
 export default function index() {
   let text = useLoaderData<typeof loader>();
+  let { height } = useClientHeight();
+  if (!text)
+    return (
+      <>
+        {height > 0 && (
+          <div
+            className="container mx-auto py-8 pb-8  flex"
+            style={{
+              height: height,
+            }}
+          >
+            <div className="flex-1 grid place-items-center gap-2">
+              <div>
+                <h2 className="text-xl font-bold capitalize fade">
+                  post not found
+                </h2>
+                <button
+                  className="btn btn-soft mt-2 btn-block"
+                  onClick={(e) => {
+                    console.log(window.location.reload());
+                  }}
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
 
   return (
     <div className="container mx-auto mt-8 pb-8">

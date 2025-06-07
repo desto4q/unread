@@ -1,16 +1,15 @@
 import useEmblaCarousel from "embla-carousel-react";
 import HeroCard from "./HeroCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { db } from "~/client/pocketbase";
-import { useEffect } from "react";
-import type { ListResult, RecordModel } from "pocketbase";
+import type { ListResult } from "pocketbase";
 import LoadingQuery from "./LoadingQuery";
-import type { BLOGMODEL, POSTMODEL } from "types/types";
+import type { BlOGlIST, BLOGMODEL, POSTMODEL } from "types/types";
 
 let arr = Array.from({ length: 10 }, (_, i) => i + 1);
 export default function Hero() {
-  let query = useQuery({
+  let query = useQuery<BlOGlIST>({
     queryKey: ["new"],
     queryFn: async () => {
       let client = db();
@@ -18,17 +17,17 @@ export default function Hero() {
         sort: "view_id.views",
         expand: "user_id",
       });
-      return resp;
+      return resp as BlOGlIST;
     },
   });
 
   if (query.isError) return <>error</>;
   return (
     <div className="px-4 md:px-0">
-      <div className="container mx-auto mt-8 mb-4 *:leading-loose">
+      <div className="container mx-auto mt-8 mb-2 *:leading-loose">
         <h2 className="badge badge-soft badge-primary">New Posts</h2>
         <h1 className="text-3xl font-bold capitalize ">Browse Our Resources</h1>
-        <p className="fade text-md font-semibold ">
+        <p className="fade text-lg font-semibold   mb-4">
           We provide tips and resources from industry leaders. For real
         </p>
         <LoadingQuery {...(query as any)}>

@@ -1,4 +1,4 @@
-import type { AuthModel, ListResult, RecordModel } from "pocketbase";
+import type { ListResult, RecordModel } from "pocketbase";
 
 export interface USER extends RecordModel {
   email: string;
@@ -7,12 +7,17 @@ export interface USER extends RecordModel {
   username: string;
   verified: boolean;
 }
+export interface TAGS extends RecordModel {
+  tag: string;
+}
 export interface BLOGMODEL extends RecordModel {
   post: string;
   view_id: string;
   cover: string;
+  title: string;
   expand: {
     user_id: USER;
+    tags: TAGS[];
   };
 }
 export interface POSTMODEL {
@@ -43,4 +48,4 @@ export interface POSTMODEL {
   };
 }
 
-export interface BlOGlIST extends ListResult<BLOGMODEL> {}
+export interface BLOGLIST extends ListResult<BLOGMODEL> {}
