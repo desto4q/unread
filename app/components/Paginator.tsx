@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { ListResult, RecordModel } from "pocketbase";
 import { useEffect } from "react";
-import { useSearchParams } from "react-router";
+import { useLoaderData, useSearchParams } from "react-router";
+import { toast } from "sonner";
 
 export default function Paginator() {
   let [searchParams, setSearchParam] = useSearchParams();
@@ -9,9 +11,15 @@ export default function Paginator() {
   useEffect(() => {
     console.log("looping");
   }, []);
+
+  let query = useLoaderData<ListResult<RecordModel>>();
   let updatePage = () => {
     return {
       increase: () => {
+        if (page >= query.totalPages)
+          return toast("Reached page end", {
+            duration: 800,
+          });
         const currentPage = isNaN(page) || page < 1 ? 1 : page;
         const newPage = currentPage + 1;
         searchParams.set("page", String(newPage));

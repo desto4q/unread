@@ -13,11 +13,11 @@ import Paginator from "~/components/Paginator";
 export async function loader({ request }: LoaderFunctionArgs) {
   let url = new URL(request.url);
   let sort = url.searchParams.get("sort");
-  console.log(sort, "sort");
+  let page = Number(url.searchParams.get("page"));
   let client = db();
   let response = (await client
     .collection("posts")
-    .getList(1, 20, {
+    .getList(page ?? 1, 20, {
       fields:
         "title, cover, title, createdAt, collectionId, id, expand, user_id",
       expand: "user_id",
