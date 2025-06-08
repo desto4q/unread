@@ -60,6 +60,8 @@ export default function index() {
   return (
     <div className="container mx-auto mt-8 pb-8">
       <div className="flex items-center mb-4">
+        {/* @ts-ignore */}
+
         <Link to={-1} className="btn">
           <ChevronLeftIcon size={16} /> Go Back
         </Link>

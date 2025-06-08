@@ -45,7 +45,12 @@ export default function NavBar() {
             </Link>
           )}
         </div>
-        <SearchBar />
+        <div className="ml-auto">
+          <SearchBar />
+        </div>
+        <div className="block md:hidden">
+          <UserAvatar />
+        </div>
         <div className="hidden md:block">
           {user && (
             <div>

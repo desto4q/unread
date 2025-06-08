@@ -22,18 +22,18 @@ export default function HeroCard(props: POSTMODEL) {
         <p className="text-white fade text-sm my-2 text-justify truncate ">
           {dummy_text}
         </p>
-        <div className="flex items-center">
+        <div className="flex items-center flex-wrap gap-2">
           <div className="flex items-center">
             <div className="size-6 bg-primary rounded-full"></div>
             <div className="ml-2 text-white">
               {props.expand.user_id.username}
             </div>
           </div>
-          <div className="flex items-center ml-4">
+          <div className="flex items-center md:ml-4">
             <div className="btn btn-neutral btn-circle btn-sm btn-ghost text-white border border-white">
               <CalendarIcon size={14} />
             </div>
-            <div className="ml-2 text-white">
+            <div className="ml-2  text-white">
               {date_formatter(props.updated)}
             </div>
           </div>

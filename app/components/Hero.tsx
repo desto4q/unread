@@ -24,7 +24,7 @@ export default function Hero() {
   if (query.isError) return <>error</>;
   return (
     <div className="px-4 md:px-0 ">
-      <div className="container mx-auto  mt-8 mb-2 *:leading-loose">
+      <div className="container mx-auto mt-8 mb-2 *:leading-loose">
         <h2 className="badge badge-soft badge-primary">New Posts</h2>
         <h1 className="text-3xl font-bold capitalize ">Browse Our Resources</h1>
         <p className="fade text-lg font-semibold   mb-4">
