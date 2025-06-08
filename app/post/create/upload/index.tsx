@@ -15,7 +15,6 @@ export default function index() {
     let form = e.currentTarget as HTMLFormElement;
     let formData = new FormData(form);
     let title = formData.get("title") as string;
-
     formData.append("post", temp);
     if (!title) return toast.error("Title is required");
     let cover = formData.get("cover") as File;

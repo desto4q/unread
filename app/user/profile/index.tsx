@@ -1,62 +1,65 @@
-import { useQuery } from "@tanstack/react-query";
+import type { AuthRecord, RecordModel } from "pocketbase";
 import type { LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { redirect } from "react-router";
 import { db } from "~/client/pocketbase";
 import BlogCard from "~/components/BlogCard";
 import BlogGrid from "~/components/BlogGrid";
-import LoadingQuery from "~/components/LoadingQuery";
+import Paginator from "~/components/Paginator";
+import PostHeader from "~/components/PostHeader";
+
 export async function loader({ request }: LoaderFunctionArgs) {
+  let url = new URL(request.url);
+  let sort = url.searchParams.get("sort");
+  let page = Number(url.searchParams.get("page"));
+
   let cookies = request.headers.get("cookie") ?? "";
+
   let client = db();
   client.authStore.loadFromCookie(cookies);
-
   if (!client.authStore.isValid) return redirect("/");
-  let user = client.authStore.record;
+  let user: AuthRecord | undefined = client.authStore.record;
+
   if (!user) return redirect("/");
-  return user;
+  let user_posts = await client.collection("posts").getList(page ?? 1, 20, {
+    filter: `user_id="${user.id}"`,
+    expand: "user_id",
+    sort: sort ?? "",
+  });
+  return { user, user_posts };
 }
 
 export default function index() {
   let resp = useLoaderData<typeof loader>();
 
-  let query = useQuery({
-    queryKey: ["user_data", "posts"],
-    queryFn: async () => {
-      let client = db();
-      let response = client.collection("posts").getList(1, 20, {
-        filter: `user_id="${resp.id}"`,
-        expand: "user_id",
-      });
-      return response;
-    },
-  });
   return (
     <div className="">
-      <div className="h-[240px] w-full  flex bg-base-300 relative isolate">
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral/25 -z-10"></div>
-        <div className="container mx-auto mt-auto">
-          <div className="flex items-center">
-            <div className="size-18 bg-primary rounded-md "> </div>
-            <div className="ml-2">
-              <h2 className="text-lg font-bold  fade">{resp.username}</h2>
-              <p className="label">{resp.email}</p>
-            </div>
+      <div className="relative">
+        <div className="h-[200px] bg-gradient-to-r from-primary/50 to-secondary/50"></div>
+        <div className="h-[40px] relative container mx-auto mb-2">
+          <div className="size-25 bottom-0 absolute rounded-full bg-primary border-5 shadow border border-base-100"></div>
+        </div>
+        <div className="container mx-auto mt-2">
+          <h2 className="font-bold text-xl">{resp.user.username}</h2>
+          <p className="fade font-semibold fade-md">{resp.user.email}</p>
+          <div className="mt-2 flex items-center gap-2">
+            <button className="btn btn-primary">Edit Profile</button>
+            <button className="btn">Settings</button>
           </div>
         </div>
       </div>
-      <div className="container mx-auto mt-4 h-16 step flex items-center">
-        <h2 className="fade text-xl font-bold">Blog Posts:</h2>
+
+      <div className="container mx-auto">
+        <PostHeader title="User Posts" />
       </div>
-      <div className="mt-4 container mx-auto">
-        <LoadingQuery {...(query as any)}>
-          <BlogGrid>
-            {query?.data?.items.map((item) => {
-              return <BlogCard {...(item as any)} key={item.id}></BlogCard>;
-            })}
-          </BlogGrid>
-        </LoadingQuery>
+      <div className="mt-4 container mx-auto mb-12">
+        <BlogGrid>
+          {resp.user_posts.items.map((item) => {
+            return <BlogCard {...(item as any)} key={item.id}></BlogCard>;
+          })}
+        </BlogGrid>
       </div>
+      <Paginator totalPages={resp.user_posts.totalPages} />
     </div>
   );
 }

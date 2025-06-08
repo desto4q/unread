@@ -12,10 +12,10 @@ export default function HeroCard(props: POSTMODEL) {
       <img
         src={getUrl(props, props.cover) || dummy_image_url}
         alt=""
-        className="absolute inset-0 w-full h-full -z-10"
+        className="absolute inset-0 w-full object-cover from  h-full -z-10"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 -z-10"></div>
-      <div className="mt-auto container mx-auto  px-4 mb-4">
+      <div className="absolute inset-0 bg-gradient-to-t from-neutral-900  -z-10"></div>
+      <div className="mt-auto container mx-auto  px-4 mb-4 ">
         <h2 className="text-white text-xl md:text-2xl font-bold leading-normal step ">
           {props.title}
         </h2>

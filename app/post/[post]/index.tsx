@@ -1,7 +1,7 @@
 import path from "path";
 import { useEffect } from "react";
 import Markdown from "react-markdown";
-import { useLoaderData, type LoaderFunctionArgs } from "react-router";
+import { Link, useLoaderData, type LoaderFunctionArgs } from "react-router";
 import remarkGfm from "remark-gfm";
 import { db, getUrl } from "~/client/pocketbase";
 import { useClientHeight } from "~/client/store";
@@ -11,11 +11,18 @@ export async function loader({ params }: LoaderFunctionArgs) {
   let { post: id } = params;
   let response = await client
     .collection("posts")
-    .getOne(id as string)
+    .getOne(id as string, {
+      expand: "view_id,user_id",
+    })
     .catch((err) => {});
+
+  let view = await client
+    .collection("views")
+    .update(response?.view_id as string, {
+      // @ts-ignore
+      views: response.expand.view_id.views + 1,
+    });
   return response;
-  // let text = fs.readFileSync(filePath, "utf8");
-  // return text;
 }
 export default function index() {
   let text = useLoaderData<typeof loader>();
@@ -60,6 +67,18 @@ export default function index() {
               alt=""
               className="w-full h-full object-cover rounded-md"
             />
+          </div>
+
+          <div className="container mx-auto mb-4 gap-2 flex items-center gap-1">
+            <span className="text-xl font-bold">Author:</span>
+            <Link to={"/"} className="btn btn-ghost h-auto py-2">
+              <div className="size-10 rounded-full bg-base-300"></div>
+              <h2 className="font-bold fade">
+                {/* @ts-ignore */}
+
+                {text?.expand.user_id.username}
+              </h2>
+            </Link>
           </div>
           <div className="prose  max-w-full">
             <Markdown remarkPlugins={[remarkGfm]}>{text.post}</Markdown>

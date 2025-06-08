@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useLoaderData, useSearchParams } from "react-router";
 import { toast } from "sonner";
 
-export default function Paginator() {
+export default function Paginator({ totalPages }: { totalPages: number }) {
   let [searchParams, setSearchParam] = useSearchParams();
   let currPage = searchParams.get("page");
   let page = Number(currPage);
@@ -12,11 +12,10 @@ export default function Paginator() {
     console.log("looping");
   }, []);
 
-  let query = useLoaderData<ListResult<RecordModel>>();
   let updatePage = () => {
     return {
       increase: () => {
-        if (page >= query.totalPages)
+        if (page >= totalPages)
           return toast("Reached page end", {
             duration: 800,
           });

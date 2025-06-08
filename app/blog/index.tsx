@@ -1,14 +1,10 @@
-import { useEffect } from "react";
-import {
-  useLoaderData,
-  useSearchParams,
-  type LoaderFunctionArgs,
-} from "react-router";
+import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import type { BLOGLIST, BLOGMODEL } from "types/types";
 import { db } from "~/client/pocketbase";
 import BlogCard from "~/components/BlogCard";
 import BlogGrid from "~/components/BlogGrid";
 import Paginator from "~/components/Paginator";
+import PostHeader from "~/components/PostHeader";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   let url = new URL(request.url);
@@ -29,39 +25,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 export default function index() {
   let query = useLoaderData<typeof loader>();
-  let [searchParams, setSeachParams] = useSearchParams();
-  useEffect(() => {
-    console.log(query);
-  }, []);
+
   return (
     <div className="container mx-auto pb-12 ">
-      <div className="h-18 flex items-center step sticky top-0">
-        <h2 className="text-lg font-bold">Latest Posts</h2>
-        <div className="ml-auto">
-          <select
-            className="select"
-            defaultValue={"default"}
-            onChange={(e) => {
-              console.log(e.target.value);
-
-              searchParams.set("sort", e.target.value);
-              if (e.target.value == "") searchParams.delete("sort");
-              setSeachParams(searchParams);
-            }}
-          >
-            <option value={""}>Default</option>
-            <option className="" value={"-created"}>
-              oldest
-            </option>
-            <option className="" value={"view_id.views"}>
-              Views: Highest
-            </option>
-            <option className="" value={"-view_id.views"}>
-              Views: Lowest
-            </option>
-          </select>
-        </div>
-      </div>
+      <PostHeader title="latest Post" />
       <div className=" mt-4">
         {query && (
           <BlogGrid>
@@ -71,7 +38,7 @@ export default function index() {
           </BlogGrid>
         )}
       </div>
-      <Paginator />
+      <Paginator totalPages={query.totalPages} />
     </div>
   );
 }

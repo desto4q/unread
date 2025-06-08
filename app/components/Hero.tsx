@@ -5,11 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { db } from "~/client/pocketbase";
 import type { ListResult } from "pocketbase";
 import LoadingQuery from "./LoadingQuery";
-import type { BlOGlIST, BLOGMODEL, POSTMODEL } from "types/types";
+import type { BLOGLIST, BLOGMODEL, POSTMODEL } from "types/types";
 
 let arr = Array.from({ length: 10 }, (_, i) => i + 1);
 export default function Hero() {
-  let query = useQuery<BlOGlIST>({
+  let query = useQuery<BLOGLIST>({
     queryKey: ["new"],
     queryFn: async () => {
       let client = db();
@@ -17,14 +17,14 @@ export default function Hero() {
         sort: "view_id.views",
         expand: "user_id",
       });
-      return resp as BlOGlIST;
+      return resp as BLOGLIST;
     },
   });
 
   if (query.isError) return <>error</>;
   return (
-    <div className="px-4 md:px-0">
-      <div className="container mx-auto mt-8 mb-2 *:leading-loose">
+    <div className="px-4 md:px-0 ">
+      <div className="container mx-auto  mt-8 mb-2 *:leading-loose">
         <h2 className="badge badge-soft badge-primary">New Posts</h2>
         <h1 className="text-3xl font-bold capitalize ">Browse Our Resources</h1>
         <p className="fade text-lg font-semibold   mb-4">
