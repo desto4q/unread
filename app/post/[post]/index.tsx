@@ -1,12 +1,12 @@
-import path from "path";
-import { useEffect } from "react";
+import { ChevronLeftIcon } from "lucide-react";
 import Markdown from "react-markdown";
 import { Link, useLoaderData, type LoaderFunctionArgs } from "react-router";
 import remarkGfm from "remark-gfm";
-import { db, getUrl } from "~/client/pocketbase";
+import { checkCookie, db, getUrl } from "~/client/pocketbase";
 import { useClientHeight } from "~/client/store";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  let cookie = request.headers.get("cookie") || "";
   let client = db();
   let { post: id } = params;
   let response = await client
@@ -15,19 +15,19 @@ export async function loader({ params }: LoaderFunctionArgs) {
       expand: "view_id,user_id",
     })
     .catch((err) => {});
-
   let view = await client
     .collection("views")
     .update(response?.view_id as string, {
       // @ts-ignore
       views: response.expand.view_id.views + 1,
     });
-  return response;
+  let user = checkCookie(cookie, client);
+  return { response, user };
 }
 export default function index() {
-  let text = useLoaderData<typeof loader>();
+  let query = useLoaderData<typeof loader>();
   let { height } = useClientHeight();
-  if (!text)
+  if (!query.response)
     return (
       <>
         {height > 0 && (
@@ -59,11 +59,25 @@ export default function index() {
 
   return (
     <div className="container mx-auto mt-8 pb-8">
+      <div className="flex items-center mb-4">
+        <Link to={-1} className="btn">
+          <ChevronLeftIcon size={16} /> Go Back
+        </Link>
+        {/* @ts-ignore */}
+        {query?.user.id == query.response.user_id && (
+          <Link
+            to={`/post/${query.response.id}/edit`}
+            className="btn btn-soft btn-primary ml-auto"
+          >
+            Edit
+          </Link>
+        )}
+      </div>
       <div className="flex justify-center">
         <div className="w-full max-w-3xl">
           <div className="bg-base-300 h-[452px] w-full  mb-8">
             <img
-              src={getUrl(text, text.cover)}
+              src={getUrl(query.response, query.response.cover)}
               alt=""
               className="w-full h-full object-cover rounded-md"
             />
@@ -76,12 +90,14 @@ export default function index() {
               <h2 className="font-bold fade">
                 {/* @ts-ignore */}
 
-                {text?.expand.user_id.username}
+                {query.response?.expand.user_id.username}
               </h2>
             </Link>
           </div>
           <div className="prose  max-w-full">
-            <Markdown remarkPlugins={[remarkGfm]}>{text.post}</Markdown>
+            <Markdown remarkPlugins={[remarkGfm]}>
+              {query.response.post}
+            </Markdown>
           </div>
         </div>
       </div>

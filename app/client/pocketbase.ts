@@ -34,3 +34,9 @@ export function getUrl(record: RecordModel, name: string) {
   let client = db();
   return client.files.getURL(record, name);
 }
+
+export function checkCookie(cookie: string, client: PocketBase) {
+  client.authStore.loadFromCookie(cookie);
+  if (!client.authStore.isValid) return;
+  return client.authStore.record;
+}
