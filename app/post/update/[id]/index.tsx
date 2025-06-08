@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, XIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import {
   redirect,
@@ -8,12 +8,15 @@ import {
   type LoaderFunctionArgs,
 } from "react-router";
 import { toast } from "sonner";
+import { db } from "~/client/pocketbase";
 import { useMarkdownUploader } from "~/client/store";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   let { id } = params;
   if (!id) return redirect("/");
-  if (id) return id;
+  let client = db();
+  let post = await client.collection("posts").getOne(id);
+  return post;
 }
 
 export default function index() {
@@ -25,12 +28,9 @@ export default function index() {
     e.preventDefault();
     let form = e.currentTarget as HTMLFormElement;
     let formData = new FormData(form);
-    let title = formData.get("title");
     formData.append("post", temp);
-    if (!title) return toast.error("Title is required");
-    let cover = formData.get("cover");
-    if (!cover) return toast.error("Cover image is required");
-    let response = await fetch("/api/post", {
+    formData.append("id", resp.id);
+    let response = await fetch("/api/post/update", {
       method: "POST",
       credentials: "include",
       body: formData,
@@ -44,6 +44,9 @@ export default function index() {
     console.log(data);
   };
   let nav = useNavigate();
+  useEffect(() => {
+    console.log(resp);
+  }, []);
   return (
     <div className=" container mx-auto">
       <div className="h-16 flex items-center step px-4 md:px-0">
@@ -56,7 +59,7 @@ export default function index() {
           <ArrowLeftIcon size={18} /> Back
         </button>
         <h2 className="text-lg font-bold fade">
-          Update : <span className="fade text-xl">{resp as string}</span>
+          Update : <span className="fade text-xl">{resp.id}</span>
         </h2>
       </div>
       <div className="flex flex-col md:flex-row gap-2 mt-4 px-4 md:px-0">
@@ -92,6 +95,7 @@ export default function index() {
                 type="text"
                 className="input w-full"
                 placeholder="Title here"
+                defaultValue={resp.title}
               />
             </div>
             <input

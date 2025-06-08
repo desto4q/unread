@@ -59,7 +59,7 @@ export default function index() {
 
   return (
     <div className="container mx-auto mt-8 pb-8">
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-4 px-2 md:px-0">
         {/* @ts-ignore */}
 
         <Link to={-1} className="btn">
@@ -76,7 +76,7 @@ export default function index() {
         )}
       </div>
       <div className="flex justify-center">
-        <div className="w-full max-w-3xl">
+        <div className="container px-2 md:px-0">
           <div className="bg-base-300 h-[452px] w-full  mb-8">
             <img
               src={getUrl(query.response, query.response.cover)}
