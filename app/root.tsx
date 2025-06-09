@@ -38,6 +38,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import type { LoaderFunctionArgs } from "react-router";
 import { db } from "./client/pocketbase";
+import Drawer from "./components/Drawer";
+import SideBar from "./components/SideBar";
 let client = new QueryClient();
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -53,6 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Toaster richColors position="top-right" />
           <NavBar />
           {children}
+          <SideBar/>
           <ScrollRestoration />
           <Scripts />
         </body>

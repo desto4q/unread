@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router";
 import UserAvatar from "./UserAvatar";
 import { useRouteLoaderData } from "react-router";
 import SearchBar from "./SearchBar";
+import { useDrawerState } from "~/client/store";
+import { MenuIcon } from "lucide-react";
 
 let links = [
   {
@@ -24,6 +26,7 @@ let links = [
 export default function NavBar() {
   let nav = useNavigate();
   let user = useRouteLoaderData("root");
+  let { open, openDrawer } = useDrawerState();
   return (
     <div className="step px-4 md:px-0">
       <nav className="h-18 container mx-auto flex items-center gap-2">
@@ -78,6 +81,9 @@ export default function NavBar() {
             </div>
           )}
         </div>
+        <button className="btn btn-square" onClick={openDrawer}>
+          <MenuIcon />
+        </button>
       </nav>
     </div>
   );

@@ -35,3 +35,23 @@ export function useClientHeight() {
 
   return { height };
 }
+export let side_bar_atom = atom(false);
+export function useDrawerState() {
+  let [open, setOpen] = useAtom(side_bar_atom);
+
+  let openDrawer = () => {
+    setOpen(true);
+  };
+  let closeDrawer = () => {
+    setOpen(false);
+  };
+
+  return {
+    open,
+    openDrawer,
+    closeDrawer,
+    toggleDrawer: () => {
+      setOpen(!open);
+    },
+  };
+}

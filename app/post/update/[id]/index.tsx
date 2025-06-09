@@ -1,4 +1,5 @@
 import { ArrowLeftIcon, XIcon } from "lucide-react";
+import { console } from "node:inspector/promises";
 import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import {
@@ -30,6 +31,7 @@ export default function index() {
     let formData = new FormData(form);
     formData.append("post", temp);
     formData.append("id", resp.id);
+
     let response = await fetch("/api/post/update", {
       method: "POST",
       credentials: "include",

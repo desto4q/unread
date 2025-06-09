@@ -3,11 +3,7 @@
 @plugin "daisyui" {
     themes: all;
 }
-/* @layer {
-    * {
-        @apply transition-transform duration-200 ease-out;
-    }
-} */
+
 @utility btn {
     @apply active:scale-[.96];
 }

@@ -2,7 +2,6 @@ import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import Hero from "./components/Hero";
 import BlogGrid from "./components/BlogGrid";
 import SearchBar from "./components/SearchBar";
-import Card from "./components/Card";
 import { db } from "./client/pocketbase";
 import BlogCard from "./components/BlogCard";
 import type { BLOGMODEL } from "types/types";

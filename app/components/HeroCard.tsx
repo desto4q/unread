@@ -3,12 +3,21 @@ let dummy_text =
 let dummy_image_url =
   "https://images.pexels.com/photos/32131630/pexels-photo-32131630/free-photo-of-scenic-road-through-canadian-rockies-in-jasper.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
 import { CalendarIcon } from "lucide-react";
+import { useNavigate } from "react-router";
 import type { POSTMODEL } from "types/types";
 import { getUrl } from "~/client/pocketbase";
 import { date_formatter } from "~/client/store";
 export default function HeroCard(props: POSTMODEL) {
+  let nav = useNavigate();
   return (
-    <div className="w-full h-full isolate flex relative">
+    <div
+      className="w-full h-full isolate flex relative"
+      onClick={() => {
+        nav("/post/" + props.id, {
+          viewTransition: true,
+        });
+      }}
+    >
       <img
         src={getUrl(props, props.cover) || dummy_image_url}
         alt=""
