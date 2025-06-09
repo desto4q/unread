@@ -48,7 +48,7 @@ export default function NavBar() {
             </Link>
           )}
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto w-full md:w-fit">
           <SearchBar />
         </div>
         <div className="block md:hidden">

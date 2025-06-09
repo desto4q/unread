@@ -13,9 +13,9 @@ export default function SearchBar() {
     return nav("/search/" + search);
   };
   return (
-    <form className="join" onSubmit={onSubmit}>
+    <form className="join w-full" onSubmit={onSubmit}>
       <input
-        className="join-item input"
+        className="join-item input w-full"
         name="search"
         // type="search"
         placeholder="search"
