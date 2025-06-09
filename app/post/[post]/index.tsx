@@ -9,24 +9,24 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   let cookie = request.headers.get("cookie") || "";
   let client = db();
   let { post: id } = params;
+
   let response = await client
     .collection("posts")
     .getOne(id as string, {
       expand: "view_id,user_id",
     })
     .catch((err) => {});
-  let view = await client
-    .collection("views")
-    .update(response?.view_id as string, {
-      // @ts-ignore
-      views: response.expand.view_id.views + 1,
-    });
+  await client.collection("views").update(response?.view_id as string, {
+    // @ts-ignore
+    views: response.expand.view_id.views + 1,
+  });
   let user = checkCookie(cookie, client);
   return { response, user };
 }
 export default function index() {
   let query = useLoaderData<typeof loader>();
   let { height } = useClientHeight();
+
   if (!query.response)
     return (
       <>
@@ -66,7 +66,7 @@ export default function index() {
           <ChevronLeftIcon size={16} /> Go Back
         </Link>
         {/* @ts-ignore */}
-        {query?.user.id == query.response.user_id && (
+        {query?.user?.id == query.response.user_id && (
           <Link
             to={`/post/${query.response.id}/edit`}
             className="btn btn-soft btn-primary ml-auto"
@@ -77,7 +77,7 @@ export default function index() {
       </div>
       <div className="flex justify-center">
         <div className="container px-2 md:px-0">
-          <div className="bg-base-300 h-[452px] w-full  mb-8">
+          <div className="bg-base-300 h-[452px] w-full  mb-8 ">
             <img
               src={getUrl(query.response, query.response.cover)}
               alt=""
@@ -85,18 +85,18 @@ export default function index() {
             />
           </div>
 
-          <div className="container mx-auto mb-4 gap-2 flex items-center gap-1">
+          <div className="container mx-auto mb-4 gap-2 flex items-center px-2">
             <span className="text-xl font-bold">Author:</span>
             <Link to={"/"} className="btn btn-ghost h-auto py-2">
               <div className="size-10 rounded-full bg-base-300"></div>
               <h2 className="font-bold fade">
                 {/* @ts-ignore */}
-
                 {query.response?.expand.user_id.username}
               </h2>
             </Link>
           </div>
-          <div className="prose  max-w-full">
+          <div className="prose  max-w-full px-2" >
+            <h1>{query.response.title}</h1>
             <Markdown remarkPlugins={[remarkGfm]}>
               {query.response.post}
             </Markdown>

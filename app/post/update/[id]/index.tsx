@@ -1,5 +1,4 @@
 import { ArrowLeftIcon, XIcon } from "lucide-react";
-import { console } from "node:inspector/promises";
 import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import {
@@ -31,7 +30,6 @@ export default function index() {
     let formData = new FormData(form);
     formData.append("post", temp);
     formData.append("id", resp.id);
-
     let response = await fetch("/api/post/update", {
       method: "POST",
       credentials: "include",
@@ -70,7 +68,8 @@ export default function index() {
             <div className="bg-base-100 w-full aspect-video  rounded relative isolate">
               <button
                 className="z-10 absolute right-0 top-0 m-2 btn btn-circle btn-error"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault()
                   if (!coverRef.current) return;
                   if (coverRef.current) {
                     coverRef.current.value = "";
@@ -117,7 +116,7 @@ export default function index() {
               id="cover_img"
               name="cover"
             />
-            <button className="btn btn-block mt-2 btn-primary">Upload</button>
+            <button className="btn btn-block mt-2 btn-primary">Update</button>
           </form>
         </div>
         <div className="flex-1 prose max-w-full overflow-hidden">

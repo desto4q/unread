@@ -12,9 +12,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   let url = new URL(request.url);
   let sort = url.searchParams.get("sort");
   let page = Number(url.searchParams.get("page"));
-
   let cookies = request.headers.get("cookie") ?? "";
-
   let client = db();
   client.authStore.loadFromCookie(cookies);
   if (!client.authStore.isValid) return redirect("/");
@@ -37,11 +35,11 @@ export default function index() {
       <div className="relative">
         <div className="h-[200px] bg-gradient-to-r from-primary/50 to-secondary/50"></div>
         <div className="h-[40px] relative container mx-auto mb-2">
-          <div className="size-25 bottom-0 absolute rounded-full bg-primary border-5 shadow border border-base-100"></div>
+          <div className="size-25 bottom-0 absolute rounded-full bg-primary border-5 shadow  border-base-100"></div>
         </div>
-        <div className="container mx-auto mt-2">
+        <div className="container mx-auto mt-2 px-2 md:px-0">
           <h2 className="font-bold text-xl">{resp.user.username}</h2>
-          <p className="fade font-semibold fade-md">{resp.user.email}</p>
+          <p className="font-semibold fade-md">{resp.user.email}</p>
           <div className="mt-2 flex items-center gap-2">
             <button className="btn btn-primary">Edit Profile</button>
             <button className="btn">Settings</button>

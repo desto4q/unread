@@ -15,7 +15,7 @@ export default function Drawer(props: Drawer) {
   }, [open]);
   return (
     <div
-      className={`fixed top-0 right-0 h-dvh w-full    z-50 flex ${
+      className={`fixed top-0 right-0 h-dvh w-full md:hidden   z-50 flex ${
         open ? "bg-base-200/50 backdrop-blur-xs" : "pointer-events-none"
       }`}
       onClick={(e) => {

@@ -17,14 +17,14 @@ export async function action({ request, params }: ActionFunctionArgs) {
       }
     );
   let form = await request.formData();
-  let cover = form.get("cover");
+  let cover = form.get("cover") as Blob;
   let post = form.get("post") as string;
   let id = form.get("id") as string;
   let title = form.get("title") as string;
-
+  console.log(cover,"cover")
   try {
     let resp = await client.collection("posts").update(id, {
-      cover: cover ?? null,
+      cover: cover.size > 0 ? cover : undefined,
       post: post,
       id: id,
       title: title,

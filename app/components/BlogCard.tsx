@@ -14,7 +14,7 @@ export default function BlogCard(props: BLOGMODEL) {
         alt=""
       />
       <div className="mx-2">
-        <h2 className="font-bold line-clamp-1">{props.title}</h2>
+        <h2 className="font-bold step mb-2  mt-1 line-clamp-1">{props.title}</h2>
         <div className="flex items-center">
           <div
             className={
