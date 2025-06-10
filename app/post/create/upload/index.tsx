@@ -30,6 +30,9 @@ export default function index() {
     let data = await response.json();
     toast.success("Upload successful");
     console.log(data);
+    nav("/user/profile/", {
+      viewTransition: true,
+    });
   };
   let nav = useNavigate();
 

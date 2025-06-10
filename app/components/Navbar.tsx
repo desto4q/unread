@@ -4,7 +4,6 @@ import { useRouteLoaderData } from "react-router";
 import SearchBar from "./SearchBar";
 import { useDrawerState } from "~/client/store";
 import { MenuIcon } from "lucide-react";
-
 let links = [
   {
     name: "Home",
@@ -15,7 +14,7 @@ let links = [
     path: "/blog",
   },
   {
-    name: "profile",
+    name: "Profile",
     path: "/user/profile",
   },
   {
@@ -81,7 +80,7 @@ export default function NavBar() {
             </div>
           )}
         </div>
-        <button className="btn btn-square" onClick={openDrawer}>
+        <button className="btn btn-square md:hidden" onClick={openDrawer}>
           <MenuIcon />
         </button>
       </nav>

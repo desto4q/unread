@@ -65,11 +65,12 @@ let Carousel = ({ data }: { data: ListResult<POSTMODEL> }) => {
       </div>
       <div className="embla bg-red-200 w-full" ref={emblaRef}>
         <div className="embla__container">
-          {data.items.map((item, i) => (
-            <div className="embla__slide h-[522px]" key={"slide_" + i}>
-              <HeroCard {...item} />
-            </div>
-          ))}
+          {data.items &&
+            data.items.map((item, i) => (
+              <div className="embla__slide h-[522px]" key={"slide_" + i}>
+                <HeroCard {...item} />
+              </div>
+            ))}
         </div>
       </div>
     </div>

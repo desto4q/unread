@@ -1,5 +1,6 @@
 import type { AuthRecord, RecordModel } from "pocketbase";
 import type { LoaderFunctionArgs } from "react-router";
+import { Link } from "react-router";
 import { useLoaderData } from "react-router";
 import { redirect } from "react-router";
 import { db } from "~/client/pocketbase";
@@ -7,7 +8,6 @@ import BlogCard from "~/components/BlogCard";
 import BlogGrid from "~/components/BlogGrid";
 import Paginator from "~/components/Paginator";
 import PostHeader from "~/components/PostHeader";
-
 export async function loader({ request }: LoaderFunctionArgs) {
   let url = new URL(request.url);
   let sort = url.searchParams.get("sort");
@@ -35,7 +35,9 @@ export default function index() {
       <div className="relative">
         <div className="h-[200px] bg-gradient-to-r from-primary/50 to-secondary/50"></div>
         <div className="h-[40px] relative container mx-auto mb-2">
-          <div className="size-25 bottom-0 absolute rounded-full bg-primary border-5 shadow  border-base-100"></div>
+          <div className="size-25 bottom-0 absolute rounded-full bg-primary border-5 shadow  border-base-100 grid place-items-center text-4xl font-bold capitalize text-primary-content">
+            {resp.user.email[0]}
+          </div>
         </div>
         <div className="container mx-auto mt-2 px-2 md:px-0">
           <h2 className="font-bold text-xl">{resp.user.username}</h2>
@@ -43,6 +45,9 @@ export default function index() {
           <div className="mt-2 flex items-center gap-2">
             <button className="btn btn-primary">Edit Profile</button>
             <button className="btn">Settings</button>
+            <Link to={"/api/auth/logout"} className="btn btn-error ml-auto">
+              Logout
+            </Link>
           </div>
         </div>
       </div>
