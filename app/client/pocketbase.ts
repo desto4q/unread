@@ -29,10 +29,11 @@ export let errorHandler = (err: any) => {
   );
 };
 export let get_cookie = (req: Request) => req.headers.get("cookie");
-
+let dummy_image_url =
+  "https://images.pexels.com/photos/32131630/pexels-photo-32131630/free-photo-of-scenic-road-through-canadian-rockies-in-jasper.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
 export function getUrl(record: RecordModel, name: string) {
   let client = db();
-  return client.files.getURL(record, name);
+  return client.files.getURL(record, name) || dummy_image_url;
 }
 
 export function checkCookie(cookie: string, client: PocketBase) {

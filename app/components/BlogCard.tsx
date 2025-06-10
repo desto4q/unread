@@ -13,7 +13,7 @@ export default function BlogCard(props: BLOGMODEL) {
   let dialogRef = useRef<HTMLDialogElement>(null);
   return (
     <div className="relative isolate">
-      {user.id == props.user_id && (
+      {user?.id == props.user_id && (
         <button
           className="absolute btn btn-error right-0 btn-sm m-2 z-10"
           onClick={(e) => {
