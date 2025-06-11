@@ -8,7 +8,7 @@ import {
   type LoaderFunctionArgs,
 } from "react-router";
 import { toast } from "sonner";
-import { db } from "~/client/pocketbase";
+import { db, getUrl } from "~/client/pocketbase";
 import { useMarkdownUploader } from "~/client/store";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -22,7 +22,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 export default function index() {
   let resp = useLoaderData();
   let { temp } = useMarkdownUploader();
-  let [image_url, setImage] = useState<string | undefined>(undefined);
+  let [image_url, setImage] = useState<string | undefined>(
+    getUrl(resp, resp.cover)
+  );
   let coverRef = useRef<HTMLInputElement>(null);
   let onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -69,7 +71,7 @@ export default function index() {
               <button
                 className="z-10 absolute right-0 top-0 m-2 btn btn-circle btn-error"
                 onClick={(e) => {
-                  e.preventDefault()
+                  e.preventDefault();
                   if (!coverRef.current) return;
                   if (coverRef.current) {
                     coverRef.current.value = "";
@@ -82,12 +84,14 @@ export default function index() {
               {!image_url && (
                 <label
                   htmlFor="cover_img"
-                  className="w-full h-full grid-center cursor-pointer hover:bg-primary duration-500 transition-colors"
+                  className="w-full  h-full grid-center cursor-pointer hover:bg-primary duration-500 transition-colors"
                 >
                   Cover Image
                 </label>
               )}
-              {image_url && <img src={image_url} />}
+              {image_url && (
+                <img src={image_url} className="w-full h-full object-cover rounded-md" />
+              )}
             </div>
             <div className="mt-2">
               <div className="label block py-1 text-lg font-bold">Title</div>

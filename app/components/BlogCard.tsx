@@ -12,7 +12,7 @@ export default function BlogCard(props: BLOGMODEL) {
   let user = useRouteLoaderData("root");
   let dialogRef = useRef<HTMLDialogElement>(null);
   return (
-    <div className="relative isolate">
+    <div className="relative isolate bg-base-100 p-2">
       {user?.id == props.user_id && (
         <button
           className="absolute btn btn-error right-0 btn-sm m-2 z-10"
@@ -58,7 +58,7 @@ export default function BlogCard(props: BLOGMODEL) {
                       toast.error("delete failed");
                     } else {
                       toast.success("deleted");
-                      window.location.reload()
+                      window.location.reload();
                     }
                   } finally {
                     btn.disabled = false;
@@ -91,16 +91,9 @@ export default function BlogCard(props: BLOGMODEL) {
               {props.expand.user_id.username}
             </p>
           </div>
+          <div>{ props.expand.view_id && props.expand.view_id.views}</div>
         </div>
-        {/* <div className="gap-2 flex flex-col mt-2">
-        <h2 className="font-bold truncate text-lg">{props.title}</h2>
-        <div className="flex items-center">
-          <div className={"size-6 rounded-full bg-red-200"}></div>
-          <p className="ml-2 text-sm font-bold fade">
-            {props.expand.user_id.username}
-          </p>
-        </div>
-      </div> */}
+
       </Link>
     </div>
   );

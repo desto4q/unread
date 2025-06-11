@@ -20,7 +20,7 @@ export default function SearchBar() {
         // type="search"
         placeholder="search"
       ></input>
-      <button className="btn join-item">
+      <button className="btn join-item btn-primary btn-soft">
         <SearchIcon className="label" size={18} />
       </button>
     </form>

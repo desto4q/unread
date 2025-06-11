@@ -1,7 +1,6 @@
 let dummy_text =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
-let dummy_image_url =
-  "https://images.pexels.com/photos/32131630/pexels-photo-32131630/free-photo-of-scenic-road-through-canadian-rockies-in-jasper.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load";
+
 import { CalendarIcon } from "lucide-react";
 import { useNavigate } from "react-router";
 import type { POSTMODEL } from "types/types";
@@ -19,7 +18,7 @@ export default function HeroCard(props: POSTMODEL) {
       }}
     >
       <img
-        src={getUrl(props, props.cover) || dummy_image_url}
+        src={getUrl(props, props.cover)}
         alt=""
         className="absolute inset-0 w-full object-cover from  h-full -z-10"
       />

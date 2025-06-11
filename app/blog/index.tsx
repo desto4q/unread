@@ -15,8 +15,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     .collection("posts")
     .getList(page ?? 1, 20, {
       fields:
-        "title, cover, title, createdAt, collectionId, id, expand, user_id",
-      expand: "user_id",
+        "title, cover, title, created, collectionId, id, expand, user_id",
+      expand: "user_id,view_id",
       sort: sort ?? "",
     })
     .catch((err) => {})) as BLOGLIST;
