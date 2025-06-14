@@ -97,6 +97,7 @@ export default function index() {
                 let url = URL.createObjectURL(file);
                 setImage(url);
               }}
+              accept="image/*"
               type="file"
               className="mt-2 file-input w-full"
               id="cover_img"

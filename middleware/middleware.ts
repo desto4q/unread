@@ -2,10 +2,7 @@
 
 import type { unstable_MiddlewareFunction } from "react-router";
 
-import { redirect } from "react-router";
 import { db } from "~/client/pocketbase";
-
-// let bad_routes = ["home/fire"];
 import * as cookie from "cookie";
 let unsafe_routes = ["/user/profile"];
 export let middleware: unstable_MiddlewareFunction = async (
@@ -19,17 +16,23 @@ export let middleware: unstable_MiddlewareFunction = async (
   if (url.pathname == "/user/login") return response;
   let client = db();
   client.authStore.loadFromCookie(cookies);
-  if (client.authStore.isValid) await client.collection("users").authRefresh();
+  if (client.authStore.isValid)
+    await client
+      .collection("users")
+      .authRefresh()
+      .catch((err) => {
+        client.authStore.clear();
+      });
+  let clear_pb = cookie.serialize("pb_auth", "", {
+    maxAge: -1,
+  });
   let pb_auth = cookie.parse(orig__cookie);
-  let new_cookie = pb_auth ? "" : client.authStore.exportToCookie();
+  let new_cookie = !client.authStore.isValid
+    ? clear_pb
+    : pb_auth
+    ? ""
+    : client.authStore.exportToCookie();
   console.log(orig__cookie, "set-cookie");
   response.headers.append("set-cookie", new_cookie);
   return response;
 };
-
-// export let middleware: unstable_MiddlewareFunction = async (
-//   { context, params },
-//   next
-// ) => {
-//   return await next();
-// };

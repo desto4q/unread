@@ -14,8 +14,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   let response = (await client
     .collection("posts")
     .getList(page ?? 1, 20, {
-      fields:
-        "title, cover, title, created, collectionId, id, expand, user_id",
       expand: "user_id,view_id",
       sort: sort ?? "",
     })

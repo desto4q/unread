@@ -1,95 +1,98 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-    themes: all;
+  themes: all;
 }
 
 @utility btn {
-    @apply active:scale-[.96];
+  @apply active:scale-[.96];
 }
 
 @utility input {
-    @apply focus:outline-none;
+  @apply focus:outline-none;
 }
 
 @plugin "daisyui/theme" {
-    name: "smoothocean";
-    default: false;
-    prefersdark: false;
-    color-scheme: "light";
-    --color-base-100: oklch(98% 0.002 247.839);
-    --color-base-200: oklch(96% 0.003 264.542);
-    --color-base-300: oklch(92% 0.006 264.531);
-    --color-base-content: oklch(21% 0.034 264.665);
-    --color-primary: oklch(58% 0.233 277.117);
-    --color-primary-content: oklch(96% 0.018 272.314);
-    --color-secondary: oklch(62% 0.265 303.9);
-    --color-secondary-content: oklch(97% 0.014 308.299);
-    --color-accent: oklch(70% 0.213 47.604);
-    --color-accent-content: oklch(98% 0.016 73.684);
-    --color-neutral: oklch(44% 0.03 256.802);
-    --color-neutral-content: oklch(98% 0.002 247.839);
-    --color-info: oklch(54% 0.245 262.881);
-    --color-info-content: oklch(97% 0.014 254.604);
-    --color-success: oklch(62% 0.194 149.214);
-    --color-success-content: oklch(98% 0.018 155.826);
-    --color-warning: oklch(66% 0.179 58.318);
-    --color-warning-content: oklch(98% 0.022 95.277);
-    --color-error: oklch(57% 0.245 27.325);
-    --color-error-content: oklch(97% 0.013 17.38);
-    --radius-selector: 0.25rem;
-    --radius-field: 0.25rem;
-    --radius-box: 0.25rem;
-    --size-selector: 0.25rem;
-    --size-field: 0.25rem;
-    --border: 1px;
-    --depth: 1;
-    --noise: 1;
+  name: "smoothocean";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.002 247.839);
+  --color-base-200: oklch(96% 0.003 264.542);
+  --color-base-300: oklch(92% 0.006 264.531);
+  --color-base-content: oklch(21% 0.034 264.665);
+  --color-primary: oklch(58% 0.233 277.117);
+  --color-primary-content: oklch(96% 0.018 272.314);
+  --color-secondary: oklch(62% 0.265 303.9);
+  --color-secondary-content: oklch(97% 0.014 308.299);
+  --color-accent: oklch(70% 0.213 47.604);
+  --color-accent-content: oklch(98% 0.016 73.684);
+  --color-neutral: oklch(44% 0.03 256.802);
+  --color-neutral-content: oklch(98% 0.002 247.839);
+  --color-info: oklch(54% 0.245 262.881);
+  --color-info-content: oklch(97% 0.014 254.604);
+  --color-success: oklch(62% 0.194 149.214);
+  --color-success-content: oklch(98% 0.018 155.826);
+  --color-warning: oklch(66% 0.179 58.318);
+  --color-warning-content: oklch(98% 0.022 95.277);
+  --color-error: oklch(57% 0.245 27.325);
+  --color-error-content: oklch(97% 0.013 17.38);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 1;
 }
 
 @utility step {
-    @apply border-b border-b-current/25;
+  @apply border-b border-b-current/25;
 }
 
 @utility center {
-    @apply flex items-center;
+  @apply flex items-center;
 }
 @utility screen {
-    @apply min-h-[calc(100dvh-80px)];
+  @apply min-h-[calc(100dvh-80px)];
 }
 
 @utility fade {
-    @apply opacity-85;
+  @apply opacity-85;
 }
 
 @utility fade-md {
-    @apply opacity-50;
+  @apply opacity-50;
 }
 @utility middle {
-    @apply flex items-center justify-center;
+  @apply flex items-center justify-center;
 }
 
 .embla {
-    overflow: hidden;
+  overflow: hidden;
 }
 .embla__container {
-    display: flex;
-    height: 100%;
+  display: flex;
+  height: 100%;
 }
 .embla__slide {
-    flex: 0 0 100%;
+  flex: 0 0 100%;
 
-    min-width: 0;
+  min-width: 0;
 }
 
 @utility clickable {
-    @apply cursor-pointer hover:grayscale-90 active:opacity-75;
+  @apply cursor-pointer hover:grayscale-90 active:opacity-75;
 }
 
 @utility mockup-code {
-    @apply !p-0;
+  @apply !p-0;
 }
 
+@utility bg-debug {
+  @apply bg-red-500/50;
+}
 @utility grid-center {
-    @apply grid place-items-center;
+  @apply grid place-items-center flex-1;
 }

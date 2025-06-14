@@ -18,6 +18,7 @@ export interface BLOGMODEL extends RecordModel {
   expand: {
     user_id: USER;
     tags: TAGS[];
+    [key: string]: any;
   };
 }
 export interface POSTMODEL {

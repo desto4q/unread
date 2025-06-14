@@ -11,8 +11,10 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
   let email = formData.get("email") as string;
   let password = formData.get("password") as string;
   let passwordConfirm = formData.get("passwordConfirm") as string;
+  let username = formData.get("username") as string;
   let data = {
     email,
+    username: username || undefined,
     password,
     passwordConfirm,
   };
@@ -30,7 +32,7 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
           error: error.message,
           code: error.stack,
         },
-        { status: error.status },
+        { status: error.status }
       );
     }
     return Response.json(
@@ -38,7 +40,7 @@ export async function action({ request, params, context }: ActionFunctionArgs) {
         error: "An unexpected error occurred",
         code: (error as Error).message,
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -90,6 +92,15 @@ export default function index() {
             />
           </div>
           <div className="py-2 ">
+            <p className="label block mb-2">username</p>
+            <input
+              type="text"
+              placeholder="username"
+              name="username"
+              className="input w-full"
+            />
+          </div>
+          <div className="py-2 ">
             <p className="label block mb-2">Password</p>
             <input
               type="text"
@@ -98,6 +109,7 @@ export default function index() {
               className="input w-full"
             />
           </div>
+
           <div className="py-2 ">
             <p className="label block mb-2">Confirm Password</p>
             <input

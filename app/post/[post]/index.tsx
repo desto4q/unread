@@ -9,7 +9,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
   let cookie = request.headers.get("cookie") || "";
   let client = db();
   let { post: id } = params;
-
   let response = await client
     .collection("posts")
     .getOne(id as string, {

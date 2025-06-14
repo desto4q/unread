@@ -44,8 +44,8 @@ let Carousel = ({ data }: { data: ListResult<POSTMODEL> }) => {
   });
 
   return (
-    <div className="flex container mx-auto rounded-lg overflow-hidden relative isolate ">
-      <div className="absolute flex p-2 gap-2 right-0 m-2 z-10">
+    <div className="flex container mx-auto rounded-lg p-2 min-h-[520px] overflow-hidden relative isolate ">
+      <div className="absolute flex p-2 gap-2 right-0 m-2 z-10 *:shadow">
         <button
           className="btn btn-circle"
           onClick={() => {
@@ -63,14 +63,20 @@ let Carousel = ({ data }: { data: ListResult<POSTMODEL> }) => {
           <ChevronRight />
         </button>
       </div>
-      <div className="embla bg-red-200 w-full" ref={emblaRef}>
+      <div className="embla bg-base-200 w-full" ref={emblaRef}>
         <div className="embla__container">
-          {data.items &&
+          {data.items.length > 0 ? (
+            data.items &&
             data.items.map((item, i) => (
               <div className="embla__slide h-[522px]" key={"slide_" + i}>
                 <HeroCard {...item} />
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="grid-center bg-base-300 ">
+              <h2 className="text-xl capitalize font-bold fade-md">No Blog Posts</h2>
+            </div>
+          )}
         </div>
       </div>
     </div>
