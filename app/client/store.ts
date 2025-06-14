@@ -1,5 +1,13 @@
 import { atom, useAtom } from "jotai";
-import { useEffect, useLayoutEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import type { BLOGMODEL } from "types/types";
 let md_atom = atom<string>("");
 
 export function useMarkdownUploader() {
@@ -55,3 +63,9 @@ export function useDrawerState() {
     },
   };
 }
+
+let item_atom = atom<BLOGMODEL | null>(null);
+export let useDelete = () => {
+  let [item, setItem] = useAtom<BLOGMODEL | null>(item_atom);
+  return { setItem, item };
+};

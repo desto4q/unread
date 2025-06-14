@@ -38,10 +38,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import type { LoaderFunctionArgs } from "react-router";
 import { db } from "./client/pocketbase";
-import Drawer from "./components/Drawer";
 import SideBar from "./components/SideBar";
+import { DialogProvider } from "./client/Providers";
 let client = new QueryClient();
 export function Layout({ children }: { children: React.ReactNode }) {
+
   return (
     <html lang="en" data-theme="smoothocean">
       <head>
@@ -50,16 +51,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <QueryClientProvider client={client}>
-        <body>
-          <Toaster richColors position="top-right" />
-          <NavBar />
-          {children}
-          <SideBar/>
-          <ScrollRestoration />
-          <Scripts />
-        </body>
-      </QueryClientProvider>
+      <body>
+        <QueryClientProvider client={client}>
+          <DialogProvider>
+            <Toaster richColors position="top-right" />
+            <NavBar />
+            {children}
+            <SideBar />
+            <ScrollRestoration />
+            <Scripts />
+          </DialogProvider>
+        </QueryClientProvider>
+      </body>
     </html>
   );
 }
