@@ -2,6 +2,7 @@ let dummy_text =
   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
 
 import { CalendarIcon } from "lucide-react";
+import Markdown from "react-markdown";
 import { useNavigate } from "react-router";
 import type { POSTMODEL } from "types/types";
 import { getUrl } from "~/client/pocketbase";
@@ -24,11 +25,12 @@ export default function HeroCard(props: POSTMODEL) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-neutral-900  -z-10"></div>
       <div className="mt-auto container mx-auto  px-4 mb-4 ">
-        <h2 className="text-white text-xl md:text-2xl font-bold leading-normal step pb-2 mb-2">
+        <h2 className="text-white text-xl md:text-2xl font-bold leading-normal step pb-2 mb-2 capitalize">
           {props.title}
         </h2>
-        {/* <p className="text-white fade text-sm my-2 text-justify truncate ">
-        </p> */}
+        <p className="propse line-clamp-2 text-base-200 fade mb-4">
+          <Markdown>{props.post}</Markdown>
+        </p>
         <div className="flex items-center flex-wrap gap-2">
           <div className="flex items-center">
             <div className="size-6 bg-primary rounded-full"></div>

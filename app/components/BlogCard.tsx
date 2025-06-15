@@ -41,9 +41,17 @@ export default function BlogCard(props: BLOGMODEL) {
           <div className="prose line-clamp-2 text-sm">
             <Markdown>{props.post}</Markdown>
           </div>
-          <div className="flex items-center mt-4 mb-4">
-            <div className="aspect-square size-8 bg-base-300"></div>
-            <div className="ml-2">
+
+          <Link
+            to={"/"}
+            className="  mt-4 mb-4 flex justify-start h-fit py-2 btn btn-soft  btn-primary"
+          >
+            <div className="flex size-8 bg-base-300 rounded-md">
+              <div className="grid-center capitalize font-bold fade">
+                {props.expand.user_id.username[0]}
+              </div>
+            </div>
+            <div className="ml-2 flex flex-col items-start ">
               <h2 className="capitalize font-semibold fade text-sm">
                 {props.expand.user_id.username}
               </h2>
@@ -51,8 +59,7 @@ export default function BlogCard(props: BLOGMODEL) {
                 {new Date(props.created).toDateString()}
               </p>
             </div>
-          </div>
-          {/* //@ts-ignore */}
+          </Link>
         </div>
       </Link>
     </div>
