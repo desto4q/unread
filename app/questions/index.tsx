@@ -1,4 +1,3 @@
-import { request } from "https";
 import Markdown from "react-markdown";
 import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import remarkGfm from "remark-gfm";
