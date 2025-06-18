@@ -31,7 +31,7 @@ export default function Hero() {
           We provide tips and resources from industry leaders. For real
         </p>
         <LoadingQuery {...(query as any)}>
-          <Carousel data={query.data as any} />
+          <Carousel data={query.data as any}  />
         </LoadingQuery>
       </div>
     </div>
@@ -44,7 +44,7 @@ let Carousel = ({ data }: { data: ListResult<POSTMODEL> }) => {
   });
 
   return (
-    <div className="flex container mx-auto rounded-lg p-2 min-h-[520px] overflow-hidden relative isolate ">
+    <div className="flex drop-shadow-2xl container mx-auto rounded-lg p-2 min-h-[520px] overflow-hidden relative isolate ">
       <div className="absolute flex p-2 gap-2 right-0 m-2 z-10 *:shadow">
         <button
           className="btn btn-circle"

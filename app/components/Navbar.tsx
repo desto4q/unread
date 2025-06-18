@@ -37,7 +37,11 @@ export default function NavBar() {
         </Link>
         <div className="mr-auto md:flex hidden ">
           {links.map((link) => (
-            <Link to={link.path} key={link.name} className="btn btn-ghost">
+            <Link
+              to={link.path}
+              key={link.name}
+              className="btn  btn-primary btn-glow"
+            >
               {link.name}
             </Link>
           ))}

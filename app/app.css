@@ -96,3 +96,11 @@
 @utility grid-center {
   @apply grid place-items-center flex-1;
 }
+
+@utility btn-glow {
+  @apply btn-ghost;
+  &:hover,
+  &:active {
+    @apply bg-[var(--btn-color)]/10  text-[var(--btn-color)];
+  }
+}

@@ -15,10 +15,11 @@ export default function Paginator({ totalPages }: { totalPages: number }) {
   let updatePage = () => {
     return {
       increase: () => {
-        if (page >= totalPages)
+        if (page >= totalPages || page == totalPages)
           return toast("Reached page end", {
             duration: 800,
           });
+
         const currentPage = isNaN(page) || page < 1 ? 1 : page;
         const newPage = currentPage + 1;
         searchParams.set("page", String(newPage));
@@ -33,7 +34,7 @@ export default function Paginator({ totalPages }: { totalPages: number }) {
   };
   return (
     <div className="fixed bottom-0 left-0 flex h-16 items-center justify-center right-0 bg-base-300">
-      <div className="flex gap-2">
+      <div className="flex gap-2 ">
         <button className="btn" onClick={updatePage().decrease}>
           <ChevronLeft />
         </button>
@@ -41,6 +42,7 @@ export default function Paginator({ totalPages }: { totalPages: number }) {
         <button className="btn" onClick={updatePage().increase}>
           <ChevronRight />
         </button>
+        <div className="btn-accent btn btn-soft">Max Page: {totalPages}</div>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ export default function PostHeader({ title }: { title?: string }) {
         >
           <option value={""}>Default</option>
           <option className="" value={"-created"}>
-            oldest
+            Oldest
           </option>
           <option className="" value={"view_id.views"}>
             Views: Highest

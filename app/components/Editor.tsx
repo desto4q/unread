@@ -60,7 +60,7 @@ export default function Editor({ md }: { md?: string }) {
   let mdRef = useRef<MDXEditorMethods>(null);
   return (
     <div className="bg-base-300 min-h-[calc(100dvh-80px)]  ">
-      <div className="">
+      <div className="bg-neutral-200">
         <ClientOnly
           fallback={
             <div className="h-screen grid-center bg-base-300">
@@ -71,7 +71,7 @@ export default function Editor({ md }: { md?: string }) {
           {() => {
             return (
               <MDXEditor
-                contentEditableClassName={`min-h-[calc(100dvh-120px)] bg-base-100 prose max-w-full !important`}
+                contentEditableClassName={`min-h-[calc(100dvh-120px)]   prose max-w-full !important`}
                 markdown={"hello world"}
                 suppressHtmlProcessing
                 ref={mdRef}
