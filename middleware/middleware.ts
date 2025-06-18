@@ -4,7 +4,6 @@ import type { unstable_MiddlewareFunction } from "react-router";
 
 import { db } from "~/client/pocketbase";
 import * as cookie from "cookie";
-let unsafe_routes = ["/user/profile"];
 export let middleware: unstable_MiddlewareFunction = async (
   { context, params, request },
   next

@@ -19,7 +19,7 @@ let links = [
   },
   {
     name: "Faq's",
-    path: "/",
+    path: "/questions",
   },
 ];
 export default function NavBar() {
@@ -47,7 +47,7 @@ export default function NavBar() {
           ))}
           {user && (
             <Link to={"/post/create"} className="btn btn-primary btn-glow ">
-              create
+              Create
             </Link>
           )}
         </div>

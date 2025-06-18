@@ -44,6 +44,7 @@ export default function PasswordInputs() {
             name="password"
             className="input flex-1"
             onChange={handlePasswordChange}
+            autoComplete="new-password"
           />
           <button
             type="button"
@@ -65,6 +66,7 @@ export default function PasswordInputs() {
             className="input flex-1 pr-10"
             ref={confirmPasswordRef}
             onChange={handleConfirmPasswordChange}
+            autoComplete="new-password"
           />
           <button
             type="button"

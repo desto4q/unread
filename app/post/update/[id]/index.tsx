@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, XIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import {
   redirect,
@@ -25,7 +25,47 @@ export default function index() {
   let [image_url, setImage] = useState<string | undefined>(
     getUrl(resp, resp.cover)
   );
+  let [isDragOver, setIsDragOver] = useState(false);
   let coverRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = useCallback((file: File) => {
+    if (file.size > 5000000) {
+      return toast.error("file must be less than 5mb");
+    }
+    let url = URL.createObjectURL(file);
+    setImage(url);
+    // Set the file to the input element
+    if (coverRef.current) {
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      coverRef.current.files = dt.files;
+    }
+  }, []);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    const imageFile = files.find(file => file.type.startsWith('image/'));
+
+    if (imageFile) {
+      handleFile(imageFile);
+    } else {
+      toast.error("Please drop an image file");
+    }
+  }, [handleFile]);
+
   let onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     let form = e.currentTarget as HTMLFormElement;
@@ -67,7 +107,14 @@ export default function index() {
       <div className="flex flex-col md:flex-row gap-2 mt-4 px-4 md:px-0">
         <div className="w-full   md:max-w-lg bg-base-300 p-2">
           <form action="" method="post" onSubmit={onSubmit}>
-            <div className="bg-base-100 w-full aspect-video  rounded relative isolate">
+            <div
+              className={`bg-base-100 w-full aspect-video rounded relative isolate border-2 border-dashed transition-colors ${
+                isDragOver ? 'border-primary bg-primary/10' : 'border-transparent'
+              }`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
               <button
                 className="z-10 absolute right-0 top-0 m-2 btn btn-circle btn-error"
                 onClick={(e) => {
@@ -84,9 +131,11 @@ export default function index() {
               {!image_url && (
                 <label
                   htmlFor="cover_img"
-                  className="w-full  h-full grid-center cursor-pointer hover:bg-primary duration-500 transition-colors"
+                  className={`w-full h-full grid-center cursor-pointer hover:bg-primary duration-500 transition-colors ${
+                    isDragOver ? 'bg-primary/20' : ''
+                  }`}
                 >
-                  Cover Image
+                  {isDragOver ? 'Drop image here' : 'Cover Image'}
                 </label>
               )}
               {image_url && (
@@ -108,17 +157,13 @@ export default function index() {
               onChange={(e) => {
                 let file = e.target.files?.[0];
                 if (!file) return;
-                if (file.size > 5000000) {
-                  (e.target as HTMLInputElement).value = "";
-                  return toast.error("file must be less than 5mb");
-                }
-                let url = URL.createObjectURL(file);
-                setImage(url);
+                handleFile(file);
               }}
               type="file"
               className="mt-2 file-input w-full"
               id="cover_img"
               name="cover"
+              accept="image/*"
             />
             <button className="btn btn-block mt-2 btn-primary">Update</button>
           </form>
