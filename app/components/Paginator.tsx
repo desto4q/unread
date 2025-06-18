@@ -4,17 +4,21 @@ import { useEffect } from "react";
 import { useLoaderData, useSearchParams } from "react-router";
 import { toast } from "sonner";
 
-export default function Paginator({ totalPages }: { totalPages: number }) {
+export default function Paginator({
+  totalPages,
+  page: currpage,
+}: {
+  totalPages: number;
+  page?: number;
+}) {
   let [searchParams, setSearchParam] = useSearchParams();
   let currPage = searchParams.get("page");
   let page = Number(currPage);
-  useEffect(() => {
-    console.log("looping");
-  }, []);
 
   let updatePage = () => {
     return {
       increase: () => {
+        page = currpage || page;
         if (page >= totalPages || page == totalPages)
           return toast("Reached page end", {
             duration: 800,

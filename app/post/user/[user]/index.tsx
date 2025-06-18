@@ -29,7 +29,7 @@ export default function index() {
   return (
     <div className="container mx-auto">
       <div className="mt-4 flex items-center">
-        <div className=" bg-primary/10 text-primary uppercase text-xl font-bold  size-22 rounded-full grid-center flex-none">
+        <div className="shadow-lg bg-primary/10 text-primary uppercase text-xl font-bold  size-22 rounded-full grid-center flex-none">
           {props.user_.username[0]}
         </div>
         <div className="ml-4">
@@ -47,7 +47,7 @@ export default function index() {
           })}
         </BlogGrid>
       </div>
-      <Paginator totalPages={props.posts.totalPages} />
+      <Paginator page={props.posts.page} totalPages={props.posts.totalPages} />
     </div>
   );
 }
