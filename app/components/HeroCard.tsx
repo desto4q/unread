@@ -32,9 +32,17 @@ export default function HeroCard(props: POSTMODEL) {
           <Markdown>{props.post}</Markdown>
         </div>
         <div className="flex items-center flex-wrap gap-2">
-          <div className="flex items-center">
-            <div className="size-6 bg-primary rounded-full"></div>
-            <div className="ml-2 text-white text-sm">
+          <div
+            className="flex items-center btn btn-glow h-auto py-2"
+            onClick={(e) => {
+              e.stopPropagation();
+              nav("/post/user/" + props.user_id);
+            }}
+          >
+            <div className="size-12 rounded-full grid-center text-xl text-primary-content capitalize  bg-primary ">
+              {props.expand.user_id.username[0]}
+            </div>
+            <div className="ml-2 text-white text-sm font-bold capitalize">
               {props.expand.user_id.username}
             </div>
           </div>
