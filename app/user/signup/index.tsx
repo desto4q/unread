@@ -1,11 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
 import { ClientResponseError } from "pocketbase";
-import { useEffect, type SyntheticEvent } from "react";
+import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 import type { ActionFunctionArgs } from "react-router";
 import { useActionData } from "react-router";
-import { Form, useLoaderData } from "react-router";
 import { toast } from "sonner";
 import { db } from "~/client/pocketbase";
+import PasswordInputs, {
+  usePasswordValdidation,
+} from "~/components/PasswordInputs";
 export async function action({ request, params, context }: ActionFunctionArgs) {
   let formData = await request.formData();
   let email = formData.get("email") as string;
@@ -59,6 +60,8 @@ export default function index() {
     log_response();
   }, []);
 
+  let [match] = usePasswordValdidation();
+
   let onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     let form = new FormData(e.target as HTMLFormElement);
@@ -68,10 +71,12 @@ export default function index() {
       return toast.error("password must be at least 8 characters long");
     if (password != passwordConfirm)
       return toast.error("passwords do not match");
-
     let html_form = e.target as HTMLFormElement;
     html_form.submit();
   };
+  useEffect(() => {
+    console.log(match);
+  }, [match]);
   return (
     <div className="screen bg-base-200 flex">
       <div className="flex flex-1 items-center justify-center ">
@@ -80,7 +85,7 @@ export default function index() {
           method="post"
           className="bg-base-100 w-full max-w-lg mx-2 drop-shadow-xl p-4"
         >
-          <h2 className="text-xl font-bold">Sign Up</h2>
+          <h2 className="text-xl font-bold">Sign Up To URead</h2>
           <div className="py-2 ">
             <p className="label block mb-2">Email</p>
             <input
@@ -98,30 +103,21 @@ export default function index() {
               placeholder="username"
               name="username"
               className="input w-full"
+              required
             />
           </div>
-          <div className="py-2 ">
-            <p className="label block mb-2">Password</p>
-            <input
-              type="text"
-              placeholder="pasword"
-              name="password"
-              className="input w-full"
-            />
-          </div>
-
-          <div className="py-2 ">
-            <p className="label block mb-2">Confirm Password</p>
-            <input
-              type="text"
-              placeholder="confirm pasword"
-              name="passwordConfirm"
-              className="input w-full"
-            />
-          </div>
-          <button className="btn btn-primary btn-block mt-2">Sign Up</button>
+          <PasswordInputs />
+          <button
+            disabled={!match || false}
+            className="btn btn-primary btn-block mt-2"
+          >
+            Sign Up
+          </button>
           <div className="text-center my-2">or</div>
-          <a href="/login" className="btn btn-secondary btn-block btn-soft ">
+          <a
+            href="/user/login"
+            className="btn btn-secondary btn-block btn-soft "
+          >
             Login
           </a>
         </form>

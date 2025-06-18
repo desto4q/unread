@@ -58,7 +58,7 @@ export default function index() {
         className="p-4 bg-base-100 drop-shadow-2xl w-full max-w-lg flex flex-col gap-4 rounded-md"
       >
         <h2 className="py-2 text-xl font-bold text-center capitalize">
-          Login to Unread
+          Login to URead
         </h2>
         <div className="">
           <p className="label block mb-2">Email</p>
@@ -80,6 +80,10 @@ export default function index() {
           />
         </div>
         <button className="btn btn-primary btn-block">Login</button>
+        <div className="text-center ">Or</div>
+        <a href="/user/signup" className="btn btn-secondary btn-block btn-soft ">
+          SignUp
+        </a>
       </form>
     </Center>
   );

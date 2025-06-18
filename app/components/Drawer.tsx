@@ -10,9 +10,7 @@ interface Drawer extends PropsWithChildren {
 }
 export default function Drawer(props: Drawer) {
   let { open, closeDrawer } = useDrawerState();
-  useEffect(() => {
-    console.log(open);
-  }, [open]);
+
   return (
     <div
       className={`fixed top-0 right-0 h-dvh w-full md:hidden   z-50 flex ${

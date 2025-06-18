@@ -46,7 +46,7 @@ export default function NavBar() {
             </Link>
           ))}
           {user && (
-            <Link to={"/post/create"} className="btn btn-ghost">
+            <Link to={"/post/create"} className="btn btn-primary btn-glow ">
               create
             </Link>
           )}
